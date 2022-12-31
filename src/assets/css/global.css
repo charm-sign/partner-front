@@ -1,0 +1,8 @@
+/* 自定义一个盒子模型，需在main.js引入 */
+*{
+    box-sizing: border-box;
+}
+body{
+    margin: 0;
+    padding: 0;
+}
