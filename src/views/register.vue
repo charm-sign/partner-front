@@ -25,6 +25,25 @@
             :prefix-icon="Pear"
           ></el-input
         ></el-form-item>
+        
+        <el-form-item prop="password">
+          <el-input
+            v-model="form.password"
+            show-password
+            placeholder="请输入密码"
+            autocomplete="new-password"
+            :prefix-icon="Lock"
+          ></el-input>
+        </el-form-item>
+        <el-form-item prop="confirm">
+          <el-input
+            v-model="form.confirm"
+            show-password
+            placeholder="请确认密码"
+            autocomplete="new-password"
+            :prefix-icon="Lock"
+          ></el-input>
+        </el-form-item>
         <el-form-item prop="email">
           <el-input
             v-model="form.email"
@@ -46,24 +65,6 @@
           </div>
         </el-form-item>
 
-        <el-form-item prop="password">
-          <el-input
-            v-model="form.password"
-            show-password
-            placeholder="请输入密码"
-            autocomplete="new-password"
-            :prefix-icon="Lock"
-          ></el-input>
-        </el-form-item>
-        <el-form-item prop="confirm">
-          <el-input
-            v-model="form.confirm"
-            show-password
-            placeholder="请确认密码"
-            autocomplete="new-password"
-            :prefix-icon="Lock"
-          ></el-input>
-        </el-form-item>
         <div style="margin-bottom: 0.83em">
           <el-button style="width: 100%" type="primary" @click="login()"
             >注册</el-button

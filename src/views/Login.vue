@@ -92,7 +92,7 @@ import router from "@/router";
 
 import { ElMessage } from "element-plus";
 import { storeToRefs } from "pinia";
-import { reactive, ref } from "vue";
+import { nextTick, reactive, ref } from "vue";
 import request from "@/utils/request";
 import { useUserStore } from "@/stores/user";
 import { User, Lock, Pear, Message } from "@element-plus/icons-vue"; //引入图标才能用
@@ -196,7 +196,10 @@ const sendEmail = () => {
 const ResetPassword = () => {
   DialogVisible.value = true;
   // 触发表单重置   注意重置的对象
-  rulePasswordFormRef.value.resetFields();
+  nextTick(() => {
+    //下一刻时钟，表单渲染完再执行
+    rulePasswordFormRef.value.resetFields(); //直接这样使用还是会提示错误，因为弹窗是异步渲染，点击时表单可能还不存在，用下一刻时钟
+  });
 };
 
 //重置密码
