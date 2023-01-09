@@ -25,12 +25,17 @@ const router = createRouter({
       name: '404',
       component: () => import('@/views/404.vue')
     },
+    {
+      path: '/:pathMatch(.*)',//匹配所有未知路由 ，重定向至404
+      name: '404',
+      component: () => import('@/views/404.vue')
+    }
   ]
 })
 // 路由守卫
 router.beforeEach((to, from, next) => {
   const store = useUserStore()
-  const user = store.user//获取stroe中存储的user
+  const user = store.loginInfo.user//获取stroe中存储的user
   const hasUser = user && user.id
   const noPermissionPaths = ['/login', '/register']//定义无需登录的路由
   // debugger

@@ -3,7 +3,7 @@ import { ElMessage } from 'element-plus'
 import router from '../router'
 import config from "@/config";
 import axios from "axios";
-// import { useUserStore } from "@/stores/user";
+import { useUserStore } from "@/stores/user";
 
 const request = axios.create({
     baseURL: `http://${config.serverUrl}`,
@@ -15,7 +15,8 @@ const request = axios.create({
 // 比如统一加token，对请求参数统一加密
 request.interceptors.request.use(config => {
     config.headers['Content-Type'] = 'application/json;charset=utf-8';
-    // config.headers['Authorization'] = useUserStore().getBearerToken;  // 设置请求头
+    // console.log(useUserStore().getBearerToken) ;
+    config.headers['Authorization'] = useUserStore().getBearerToken;  // 设置请求头
     return config
 }, error => {
     return Promise.reject(error)

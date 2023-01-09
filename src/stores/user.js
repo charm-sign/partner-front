@@ -5,12 +5,18 @@ import { defineStore } from 'pinia'   // 导入 defineStore
 export const useUserStore = defineStore('user', {
     // 其他配置...
     state: () => ({
-        user: {}
+        loginInfo: {}  //{user:{},token: ''}
     }),//表示user对象{name:'',age:''}
-    actions: {
-        setUser(user) { 
-            this.user=user
-        }
+    getters: { //获取
+        getBearerToken() {
+            return this.loginInfo.token ? 'Bearer ' + this.loginInfo.token : ''
+        },
+    },
+    actions: { //存储
+        setloginInfo(loginInfo) {
+            this.loginInfo = loginInfo
+        },
+       
     },
     persist: true//开启数据持久化，默认Local Storage
 })

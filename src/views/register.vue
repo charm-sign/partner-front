@@ -25,7 +25,7 @@
             :prefix-icon="Pear"
           ></el-input
         ></el-form-item>
-        
+
         <el-form-item prop="password">
           <el-input
             v-model="form.password"
@@ -61,12 +61,11 @@
               :disabled="time > 0"
               >点击发送<span v-if="time">({{ time }})</span></el-button
             >
-           
           </div>
         </el-form-item>
 
         <div style="margin-bottom: 0.83em">
-          <el-button style="width: 100%" type="primary" @click="login()"
+          <el-button style="width: 100%" type="primary" @click="register()"
             >注册</el-button
           >
         </div>
@@ -132,6 +131,19 @@ const rules = reactive({
 });
 const time = ref(0);
 const interval = ref(-1);
+
+  const times = () => {
+    // 清空定时器
+    if (interval.value >= 0) {
+      clearInterval(interval.value);
+    }
+    time.value = 60;
+    interval.value = setInterval(() => {
+      if (time.value > 0) {
+        time.value--;
+      }
+    }, 1000);
+  };
 //发送邮箱验证码
 const sendEmail = () => {
   //发送之前先校验邮箱
@@ -140,18 +152,6 @@ const sendEmail = () => {
     ElMessage.warning("请输入正确的邮箱格式");
     return; //不再向下走
   }
-  const times = () => {
-    // 清空定时器
-    if (interval.value >= 0) {
-      clearInterval(interval.value);
-    }
-    time.value = 60; 
-    interval.value = setInterval(() => {
-      if (time.value > 0) {
-        time.value--;
-      }
-    }, 1000);
-  };
 
   request
     .get("/email", {
@@ -162,7 +162,7 @@ const sendEmail = () => {
     })
     .then((res) => {
       if (res.code === "200") {
-        ElMessage.success("发送成功，有效期为5分钟");      
+        ElMessage.success("发送成功，有效期为5分钟");
         times(); //定时器
       } else {
         ElMessage.error(res.msg);
@@ -171,18 +171,17 @@ const sendEmail = () => {
 };
 
 //注册请求
-const login = () => {
+const register = () => {
   ruleFormRef.value.validate((valid) => {
     //当校验通过为true时，调用接口 valid===true;
     if (valid) {
       request.post("/register", form).then((res) => {
-        if (res.code === "200") {
+        if (res.code === '200') {
           // 使用pinia存储数据
-          const store = useUserStore();
-          store.$patch({ user: res.data }); //存储
-
+          // const store = useUserStore();
+          // store.$patch({ user: res.data }); //存储
           ElMessage.success("注册成功");
-          router.push("/");
+          router.push('/login');
         } else {
           ElMessage.error(res.msg);
         }

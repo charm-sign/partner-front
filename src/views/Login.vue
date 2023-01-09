@@ -142,10 +142,10 @@ const login = () => {
         if (res.code === "200") {
           // 使用pinia存储数据
           const store = useUserStore();
-          store.$patch({ user: res.data }); //存储
-          // store.setUser(res.data)
+          // store.$patch({ loginInfo: res.data }); //存储
+          store.setloginInfo(res.data)
           ElMessage.success("登录成功");
-          router.push("/");
+          router.push('/');
         } else {
           ElMessage.error(res.msg);
         }
@@ -155,6 +155,20 @@ const login = () => {
 };
 const time = ref(0);
 const interval = ref(-1);
+//倒计时操作
+const times = () => {
+  // 清空定时器 防止计时越来越快
+  if (interval.value >= 0) {
+    clearInterval(interval.value);
+  }
+  time.value = 60;
+  interval.value = setInterval(() => {
+    if (time.value > 0) {
+      time.value--;
+    }
+  }, 1000);
+};
+
 //发送邮箱验证码
 const sendEmail = () => {
   //发送之前先校验邮箱
@@ -163,19 +177,6 @@ const sendEmail = () => {
     ElMessage.warning("请输入正确的邮箱格式");
     return; //不再向下走
   }
-  const times = () => {
-    // 清空定时器
-    if (interval.value >= 0) {
-      clearInterval(interval.value);
-    }
-    time.value = 60;
-    interval.value = setInterval(() => {
-      if (time.value > 0) {
-        time.value--;
-      }
-    }, 1000);
-  };
-
   request
     .get("/email", {
       params: {
@@ -186,7 +187,7 @@ const sendEmail = () => {
     .then((res) => {
       if (res.code === "200") {
         ElMessage.success("发送成功，有效期为5分钟");
-        times(); //定时器
+        times(); //定时器,当发送短信成功之后再倒计时，如果未通过验证，就不需要倒计时
       } else {
         ElMessage.error(res.msg);
       }
