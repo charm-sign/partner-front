@@ -6,9 +6,17 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'Layout',
       // @代表src目录
-      component: () => import('@/views/HomeView.vue')
+      component: () => import('@/layout/Layout.vue'),
+      redirect:"/home",//将父子路由都加载出来
+      children: [   //子路由
+        {
+          path: 'home',
+          name: 'Home',
+          component: () => import('@/views/HomeView.vue')
+        }
+    ]
     },
     {
       path: '/login',

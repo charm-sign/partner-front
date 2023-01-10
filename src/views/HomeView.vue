@@ -10,6 +10,6 @@ const load = () => {
         console.log(res.data)
     })
 }
- load()
+//  load()
 </script>
 
