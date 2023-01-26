@@ -9,14 +9,19 @@ const router = createRouter({
       name: 'Layout',
       // @代表src目录
       component: () => import('@/layout/Layout.vue'),
-      redirect:"/home",//将父子路由都加载出来
+      redirect: "/home",//将父子路由都加载出来
       children: [   //子路由
         {
           path: 'home',
           name: 'Home',
           component: () => import('@/views/HomeView.vue')
-        }
-    ]
+        },
+        {
+          path: 'personal', 
+          name: 'Personal',
+          component: () => import('@/views/PersonalCenter.vue')
+        },
+      ]
     },
     {
       path: '/login',
@@ -28,6 +33,7 @@ const router = createRouter({
       name: 'register',
       component: () => import('@/views/Register.vue')
     },
+   
     {
       path: '/404',
       name: '404',

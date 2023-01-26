@@ -7,10 +7,19 @@ export const useUserStore = defineStore('user', {
     state: () => ({
         loginInfo: {}  //{user:{},token: ''}  //理解为缓存
     }),//表示user对象{name:'',age:''}
-    getters: { //获取
-        getBearerToken() {                                 //获取方法
+    getters: {   //获取方法
+        getToken() {                               
+            return this.loginInfo.token ||''
+        },
+        getBearerToken() {                                 
             return this.loginInfo.token ? 'Bearer ' + this.loginInfo.token : ''
         },
+        getUserId() {
+            return this.loginInfo.user ? this.loginInfo.user.id : 0
+        },
+        getUser() {
+            return this.loginInfo.user ? this.loginInfo.user : 0
+        }
     },
     actions: { //存储方法 会以js文件名作为key
         setloginInfo(loginInfo) {

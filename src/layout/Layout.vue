@@ -1,5 +1,5 @@
 <template>
-    <div style="background-color:aliceblue">
+    <div >
   <!--头部 -->
   <div style="display:flex;height: 60px;background-color: white; line-height: 60px; border-bottom: 1px solid #ddd">
     <!--logo-->
@@ -19,13 +19,11 @@
     <el-sub-menu index="2">
       <template #title>Workspace</template>
       <el-menu-item index="2-1">item one</el-menu-item>
-      <el-menu-item index="2-2">item two</el-menu-item>
-      <el-menu-item index="2-3">item three</el-menu-item>
+
       <el-sub-menu index="2-4">
         <template #title>item four</template>
         <el-menu-item index="2-4-1">item one</el-menu-item>
-        <el-menu-item index="2-4-2">item two</el-menu-item>
-        <el-menu-item index="2-4-3">item three</el-menu-item>
+
       </el-sub-menu>
     </el-sub-menu>
  
@@ -43,7 +41,7 @@
     </span>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item>个人信息</el-dropdown-item>
+        <el-dropdown-item @click="router.push('/personal')">个人信息</el-dropdown-item>
         <el-dropdown-item>修改密码</el-dropdown-item>
         <el-dropdown-item divided @click="logout()">退出登录</el-dropdown-item>
       </el-dropdown-menu>
@@ -54,7 +52,7 @@
   </div>
 
   <!-- 主体 -->
-  <div style="margin: 10px auto;width: 80%;min-height: calc(100vh - 80px);background-color: white;border-radius: 10px;">
+  <div style="margin: 10px auto 0 auto;width: 60%;">
     <router-view /><!--加载子路由视图-->
   </div>
   </div>
