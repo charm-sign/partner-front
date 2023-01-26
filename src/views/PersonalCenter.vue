@@ -8,7 +8,7 @@
       </ul>
     </div>
     <div style="flex: 1; margin-left: 20px" class="box">
-      <el-form
+      <el-form 
         :model="state.user"
         label-width="100px"
         style="width: 50%; margin-top: 20px;margin-left: 100px;"
