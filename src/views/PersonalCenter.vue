@@ -32,6 +32,7 @@ const changePagePath = (pagePath) => {
   route.query.page = pagePath//触发高亮和页面
   reload()
 }
+screen
 </script>
 
 <style scoped>
