@@ -25,7 +25,9 @@ export const useUserStore = defineStore('user', {
         setloginInfo(loginInfo) {
             this.loginInfo = loginInfo
         },
-
+        setUser(user) {
+            this.loginInfo.user = JSON.parse(JSON.stringify(user))
+        },
     },
     persist: true//开启数据持久化，默认Local Storage
 })

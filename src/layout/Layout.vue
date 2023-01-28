@@ -29,26 +29,21 @@
  
   </el-menu>
     </div>
-
-
     <!-- 头像 -->
-    <div style="width:100px">
-   
+    <div style="width:60px">
     <el-dropdown>
     <span class="el-dropdown-link">
-    <el-avatar :size="40" :src="state.circleUrl" style="margin-left: -30px; position: relative; top: 10px;"/>
-   <span style="margin-left: 10px; font-size:16px;position: relative;top: -5px;">{{ store.loginInfo.user.name }}</span>
+    <el-avatar :size="40" :src="store.loginInfo.user.avatar" style=" position: relative; top: 10px;"/>
+   <!-- <span style="margin-left: 10px; font-size:16px;position: relative;top: -5px;">{{ store.loginInfo.user.name }}</span> -->
     </span>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item @click="router.push('/personal')">个人信息</el-dropdown-item>
-        <el-dropdown-item>修改密码</el-dropdown-item>
+        <el-dropdown-item @click="router.push('/personal')">个人中心</el-dropdown-item>
         <el-dropdown-item divided @click="logout()">退出登录</el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>
     </div>
-    
   </div>
 
   <!-- 主体 -->
@@ -62,9 +57,7 @@ import { reactive, ref } from 'vue';
 import { useUserStore } from "@/stores/user";
 import router from '../router';
 const store=useUserStore()
-const state = reactive({
-    circleUrl:'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-})
+
 // 退出方法
 const logout = () => { 
     localStorage.removeItem("user")

@@ -2,73 +2,35 @@
   <div style="display: flex" class="container-height">
     <div style="width: 200px; padding: 20px" class="box">
       <ul>
-        <li>个人资料</li>
-        <li>消息提醒</li>
-        <li>我的动态</li>
+        <li @click="changePagePath('myInfo')" :class="pagePath==='myInfo'? 'menu-active':''"><el-icon class="menu-icon"><User /></el-icon> 个人资料</li>
+        <li ><el-icon class="menu-icon"><Lock /></el-icon> 修改密码</li>
+        <li><el-icon class="menu-icon"><Message /></el-icon> 消息提醒</li>
+        <li @click="changePagePath('myDynamic')" :class="pagePath==='myDynamic'? 'menu-active':''"><el-icon class="menu-icon"><Histogram /></el-icon> 我的动态</li>
       </ul>
     </div>
     <div style="flex: 1; margin-left: 20px" class="box">
-      <el-form 
-        :model="state.user"
-        label-width="100px"
-        style="width: 50%; margin-top: 20px;margin-left: 100px;"
-      >
-        <el-form-item>
-          <el-upload
-            class="avatar-uploader"
-            :action="url"
-            :headers="state.headers" 
-            :show-file-list="false"
-            :on-success="handleAvatarSuccess"
-          >
-            <img v-if="state.user.avatar" :src="state.user.avatar" class="avatar" style="width:200px;height: 200px;"/>
-            <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
-          </el-upload>
-        </el-form-item>
-        <el-form-item label="用户名">
-          <el-input v-model="state.user.username"></el-input>
-        </el-form-item>
-        <el-form-item label="姓 名">
-          <el-input v-model="state.user.name"></el-input>
-        </el-form-item>
-        <el-form-item label="邮 箱">
-          <el-input v-model="state.user.email"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="onSubmit">提交</el-button>
-        </el-form-item>
-      </el-form>
+      <!-- 自定义 -->
+     <MyInfo v-if="pagePath==='myInfo'"></MyInfo>
+     <MyDynamic v-if="pagePath==='myDynamic'"/>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref,reactive } from "vue";
-import request from "@/utils/request";
-import { useUserStore } from "@/stores/user";
-import { ElMessage } from 'element-plus';
-import { Plus } from '@element-plus/icons-vue';
-import config  from '@/config'
-
-const store = useUserStore();
-let state = reactive({
-  user: {},
-  headers: {
-    Authorization: store.getBearerToken
-  }
-});
-const loadUser = () => {
-  request.get("/user/" + store.getUserId).then((res) => {
-    console.log(res.data);
-    state.user = res.data;
-  });
-};
-loadUser();
-// 我擦，必须得手动拼http://，不然会自动带前端地址
-const url = ref('http://'+config.serverUrl + '/file/upload') 
-const handleAvatarSuccess = (res) => { //上传成功之后
-  console.log(res.data)
-state.user.avatar=res.data+"?loginId="+store.getUser.uid+"&token="+store.getToken
+import MyInfo from "@/components/MyInfo.vue"
+import MyDynamic from "@/components/MyDynamic.vue"
+import router from "@/router";
+import { inject } from "vue";
+// 此3步可打印出路由
+import {useRoute} from "vue-router"
+const route = useRoute()
+const pagePath=route.query.page   //获取路径拼接?page后的值
+// console.log(route.path)
+const reload = inject('reload')
+const changePagePath = (pagePath) => { 
+  router.push({ query: { page: pagePath } })//触发页面 拼接路由
+  route.query.page = pagePath//触发高亮和页面
+  reload()
 }
 </script>
 
@@ -82,6 +44,16 @@ li {
   text-align: center;
   margin: 15px 0;
   cursor: pointer;
+}
+.avatar {
+  width: 150px;
+  height: 150px;
+}
+.menu-icon{
+  top:2px
+}
+.menu-active{
+  color:dodgerblue
 }
 </style>
 
